@@ -9,11 +9,16 @@ import logging
 from django.core.files.storage import default_storage
 from django.core.files.base import ContentFile
 from django.conf import settings
+from django.http import JsonResponse
 
 dic = dict()
 
 def home(request):
-    return render(request, 'image/home.html')
+    data = {
+        'name': 'Vitor'
+    }
+    #return render(request, 'image/home.html')
+    return JsonResponse(data)
 
 
 def imgClass(request):
@@ -128,6 +133,7 @@ def imageLinks():
 
     # ScrapImages("wardrobe",linksWardrobe)
 '''
+
 
 def downloadImages(keywords):
     response = google_images_download.googleimagesdownload()  # class instantiation
