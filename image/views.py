@@ -9,11 +9,16 @@ import logging
 from django.core.files.storage import default_storage
 from django.core.files.base import ContentFile
 from django.conf import settings
+from django.http import JsonResponse
 
 dic = dict()
 
 def home(request):
-    return render(request, 'image/home.html')
+    data = {
+        'name': 'Vitor'
+    }
+    #return render(request, 'image/home.html')
+    return JsonResponse(data)
 
 
 def imgClass(request):
@@ -46,6 +51,7 @@ def styleUpload(request):
     logger.error(path)
     tmp_file = os.path.join(settings.MEDIA_ROOT, path)
     return render(request, 'image/home.html')
+
 
 
 def downloadImages(keywords):
