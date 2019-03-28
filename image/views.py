@@ -46,8 +46,8 @@ def imageUpload(request):
     path = default_storage.save('tmp/deep.jpeg', ContentFile(img.read()))
     logger.error(path)
     tmp_file = os.path.join(settings.STATIC_ROOT, path)
-    colorme('canopus/media/tmp/deep.jpeg', 'abc')
-    img = {'image': '000.jpg'}
+    colorme('canopus/media/'+path, path)
+    img = {'image': path}
     return render(request, 'image/base.html', img)
 
 

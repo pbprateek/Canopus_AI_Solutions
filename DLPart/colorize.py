@@ -54,6 +54,6 @@ def colorme(path_to_image,image_name):
         cur = np.zeros((256, 256, 3))
         cur[:,:,0] = color_me[i][:,:,0]
         cur[:,:,1:] = output[i]
-        imsave('image/static/image/images'+image_name+".png", lab2rgb(cur))
+        imsave('image/static/image/images/'+image_name, lab2rgb(cur))
 
-colorme('DLPart/kid.jpg','kidc')
+#colorme('DLPart/kid.jpg','kidc')
