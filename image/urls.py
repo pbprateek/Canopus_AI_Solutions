@@ -11,6 +11,7 @@ urlpatterns = [
     url(r'style-trans/', views.styleTransfer, name='style'),
     url(r'imageUpload/', views.imageUpload, name='imageupload'),
     url(r'styleUpload/', views.styleUpload, name='styleupload'),
+    url(r'services/', views.services, name='services'),
 ]
 
 urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)

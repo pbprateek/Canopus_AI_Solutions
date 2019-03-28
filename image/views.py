@@ -11,14 +11,20 @@ from django.core.files.base import ContentFile
 from django.conf import settings
 from django.http import JsonResponse
 
+
 dic = dict()
+
 
 def home(request):
     data = {
         'name': 'Vitor'
     }
-    #return render(request, 'image/home.html')
-    return JsonResponse(data)
+    return render(request, 'image/base.html')
+    #return JsonResponse(data)
+
+
+def services(request):
+    return render(request, 'image/service.html')
 
 
 def imgClass(request):
