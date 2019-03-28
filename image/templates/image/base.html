@@ -68,6 +68,10 @@
     <div class="body">
         {% block body %}
         {% endblock %}
+        {% if image %}
+            <p id="login-error"><strong>{{ image }}</strong></p>
+            <img src="{% static "image/images/" %}{{ image }}"/>
+        {% endif %}
     </div>
 </div>
 </body>

@@ -10,6 +10,7 @@ from django.core.files.storage import default_storage
 from django.core.files.base import ContentFile
 from django.conf import settings
 from django.http import JsonResponse
+from DLPart.colorize import colorme
 
 
 dic = dict()
@@ -44,8 +45,10 @@ def imageUpload(request):
     img = request.FILES['image']
     path = default_storage.save('tmp/deep.jpeg', ContentFile(img.read()))
     logger.error(path)
-    tmp_file = os.path.join(settings.MEDIA_ROOT, path)
-    return render(request, 'image/home.html')
+    tmp_file = os.path.join(settings.STATIC_ROOT, path)
+    colorme('canopus/media/tmp/deep.jpeg', 'abc')
+    img = {'image': '000.jpg'}
+    return render(request, 'image/base.html', img)
 
 
 def styleUpload(request):
