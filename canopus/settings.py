@@ -123,4 +123,4 @@ USE_TZ = True
 STATIC_URL = '/static/'
 STATIC_ROOT = "/image/static/image/images"
 MEDIA_URL = '/media/'
-MEDIA_ROOT = os.path.join(os.path.dirname(BASE_DIR), "Canopus_AI_Solutions/canopus/media")
+MEDIA_ROOT = os.path.join(os.path.dirname(BASE_DIR), "Canopus_AI_Solutions/Pictures")

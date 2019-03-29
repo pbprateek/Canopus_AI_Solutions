@@ -44,6 +44,7 @@ def imageUpload(request):
     img = request.FILES['image']
     path = default_storage.save('tmp/deep.jpeg', ContentFile(img.read()))
     logger.error(path)
+    #shutil.move('deep.jpeg', 'Pictures/')
     tmp_file = os.path.join(settings.MEDIA_ROOT, path)
     return render(request, 'image/home.html')
 
@@ -64,7 +65,7 @@ def downloadImages(keywords):
     response = google_images_download.googleimagesdownload()  # class instantiation
 
     arguments = {"keywords": keywords, "limit": 5, "print_urls": True,
-                 "output_directory": "Images"}  # creating list of arguments
+                 "output_directory": "Pictures"}  # creating list of arguments
     paths = response.download(arguments)  # passing the arguments to the function
     print(paths)  # printing absolute paths of the downloaded images
 
@@ -85,8 +86,9 @@ def calculateWeights(request):
 def deleteImages(cat1, cat2):
     try:
         print(os.getcwd())
-        # path = os.getcwd()
+        path = os.getcwd()
         directory = "Pictures/" + cat1
+        print("current directory = ", path)
         shutil.rmtree(directory)
         directory = "Pictures/" + cat2
         shutil.rmtree(directory)
