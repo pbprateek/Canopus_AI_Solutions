@@ -1,7 +1,13 @@
-body {
-    background-color: #3E5050;
+.body {
+    /*background-color: #3E5050; */
+    background-image: url("../images/pic.jpg") !important;
+    width: 1200px;
+    height: 544px;
+    background-repeat: no-repeat;
 }
-
+body{
+    background-color: #1b1b1b;
+}
 input, .btn {
     margin: auto;
     width: 100%;

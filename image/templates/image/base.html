@@ -13,7 +13,10 @@
     <link href="https://cdnjs.cloudflare.com/ajax/libs/owl-carousel/1.3.2/owl.carousel.css" rel="stylesheet" />
     <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/owl-carousel/1.3.2/owl.carousel.js"></script> -->
 
-
+    <style>
+        {% block style %}
+        {% endblock %}
+    </style>
 
     <script>
         /* Set the width of the side navigation to 250px and the left margin of the page content to 250px */
@@ -56,13 +59,13 @@
 <!-- Add all page content inside this div if you want the side nav to push page content to the right (not used if you only want the sidenav to sit on top of the page -->
 <div id="main">
     <nav class="navbar navbar-default no-margin">
-        <!--<div>
-            Canopus AI Soultions
-        </div> -->
         <div>
         <span onclick="openNav()">
             <a href="#"><span class="fa fa-th-large"></span></a>
         </span>
+        </div>
+        <div style="font-size: 30px; color: white">
+            Canopus AI Soultions
         </div>
     </nav>
     <div class="body">
