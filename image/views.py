@@ -1,20 +1,14 @@
 import logging
 import os
 import shutil
-import keras
-import tensorflow as tf
 from django.conf import settings
 from django.core.files.base import ContentFile
 from django.core.files.storage import default_storage
 from django.shortcuts import render
 from google_images_download import google_images_download
-from keras.applications.inception_resnet_v2 import InceptionResNetV2
 from DLPart.colorize import colorme
 
 dic = dict()
-keras.backend.clear_session()
-inception = InceptionResNetV2(weights='imagenet', include_top=True)
-inception.graph = tf.get_default_graph()
 
 
 
@@ -49,7 +43,7 @@ def imageUpload(request):
     path = default_storage.save('tmp/deep.jpeg', ContentFile(img.read()))
     logger.error(path)
     tmp_file = os.path.join(settings.STATIC_ROOT, path)
-    colorme('canopus/media/'+path, path,inception)
+    colorme('canopus/media/'+path, path)
     img = {'image': path}
     return render(request, 'image/base.html', img)
 
