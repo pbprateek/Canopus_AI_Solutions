@@ -11,20 +11,20 @@
                 <div class="card custom-card">
                     <div class="card-header">
                         <div class="card-title text-center">
-                            <h4>Image Classification</h4>
+                            <h4>Style Transfer</h4>
                         </div>
                     </div>
                     <div class="card-body">
-                        <form class="custom-form" action="/canopus/return-weights/" method="post">
+                        <form class="custom-form" action="/canopus/styleUpload/" method="post" enctype="multipart/form-data">
                             {% csrf_token %}
                             <div class="form-group mt-3">
-                                <input type="text" id="input1" name="input1" class="form-control" placeholder="Input 1" required/>
+                                <input class="imgUpload" type="file" name="image1"/>
                             </div>
                             <div class="form-group">
-                                <input type="text" id="input2" name="input2" class="form-control" placeholder="Input 2" required/>
+                                <input class="imgUpload" type="file" name="image2"/>
                             </div>
                             <div class="form-group">
-                                <button class="btn btn-custom" type="submit">Download Images</button>
+                                <button class="btn btn-custom" type="submit">Upload Image</button>
                             </div>
                         </form>
                     </div>

@@ -20,6 +20,7 @@
             document.getElementById("mySidenav").style.display = "";
             document.getElementById("mySidenav").style.width = "250px";
             document.getElementById("main").style.marginLeft = "250px";
+            $(".btn-sideNav").hide();
         }
 
         /* Set the width of the side navigation to 0 and the left margin of the page content to 0 */
@@ -27,6 +28,8 @@
             document.getElementById("mySidenav").style.width = "0";
             document.getElementById("main").style.marginLeft = "0";
             document.getElementById("mySidenav").style.display = "none";
+            $(".btn-sideNav").fadeIn(1000);
+            $(".btn-sideNav").removeClass("hidden");
         }
 
         $("#service").click(function () {
@@ -60,23 +63,13 @@
         </div> -->
         <div>
         <span onclick="openNav()">
-            <a href="#"><span class="fa fa-th-large"></span></a>
+            <a href="#"><span class="fa fa-th-large btn-sideNav hidden"></span></a>
         </span>
         </div>
     </nav>
     <div class="body">
         {% block body %}
         {% endblock %}
-        {% if image %}
-            <p id="login-error"><strong>{{ image }}</strong></p>
-            <img src="{% static "image/images/" %}{{ image }}"/>
-        {% endif %}
-
-        {% if same_person %}
-            <h1>Same Person</h1>
-        {% else %}
-            <h1>Different Person</h1>
-        {% endif %}
     </div>
 </div>
 </body>
