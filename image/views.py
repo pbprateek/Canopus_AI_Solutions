@@ -7,6 +7,7 @@ from django.core.files.storage import default_storage
 from django.shortcuts import render
 from google_images_download import google_images_download
 from DLPart.colorize import colorme
+from DLPart.face_recog import verify_if_same
 
 dic = dict()
 
@@ -51,12 +52,12 @@ def imageUpload(request):
 def styleUpload(request):
     logger = logging.getLogger(__name__)
     img = request.FILES['image1']
-    path = default_storage.save('tmp/style1.jpeg', ContentFile(img.read()))
+    path1 = default_storage.save('tmp/style1.jpeg', ContentFile(img.read()))
     img = request.FILES['image2']
-    path = default_storage.save('tmp/style2.jpeg', ContentFile(img.read()))
-    logger.error(path)
-    tmp_file = os.path.join(settings.MEDIA_ROOT, path)
-    return render(request, 'image/home.html')
+    path2 = default_storage.save('tmp/style2.jpeg', ContentFile(img.read()))
+    same_person = verify_if_same('canopus/media/'+path1,'canopus/media/'+path2)
+    dict = {'same_person':same_person}
+    return render(request, 'image/base.html',dict)
 
 
 
