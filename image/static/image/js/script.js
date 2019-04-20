@@ -1,5 +1,3 @@
 $(window).load(function(){
-   $(".htop").show("slide", {
-      direction: "down"
-   }, 2000);
+   $(".btn-sideNav").hide();
 });

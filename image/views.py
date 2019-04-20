@@ -12,18 +12,12 @@ from DLPart.face_recog import verify_if_same
 dic = dict()
 
 
-
-
 def home(request):
-    data = {
-        'name': 'Vitor'
-    }
-    return render(request, 'image/base.html')
-    #return JsonResponse(data)
+    return render(request, 'image/dashboard.html')
 
 
 def services(request):
-    return render(request, 'image/service.html')
+    return render(request, 'image/services.html')
 
 
 def imgClass(request):
@@ -35,18 +29,21 @@ def deepDreams(request):
 
 
 def styleTransfer(request):
-    return render(request, 'image/styletrans.html')
+    return render(request, 'image/styletransfer.html')
+
+
+def faceRecognition(request):
+    return render(request, 'image/facerecog.html')
 
 
 def imageUpload(request):
     logger = logging.getLogger(__name__)
     img = request.FILES['image']
     path = default_storage.save('tmp/deep.jpeg', ContentFile(img.read()))
-    logger.error(path)
-    tmp_file = os.path.join(settings.STATIC_ROOT, path)
+    oldpath = default_storage.save('tmp/deep.jpeg', ContentFile(img.read()))
     colorme('canopus/media/'+path, path)
-    img = {'image': path}
-    return render(request, 'image/base.html', img)
+    img = {'image': path, 'oldimage': 'canopus/media/'+oldpath}
+    return render(request, 'image/result.html', img)
 
 
 def styleUpload(request):
@@ -57,7 +54,7 @@ def styleUpload(request):
     path2 = default_storage.save('tmp/style2.jpeg', ContentFile(img.read()))
     same_person = verify_if_same('canopus/media/'+path1,'canopus/media/'+path2)
     dict = {'same_person':same_person}
-    return render(request, 'image/base.html',dict)
+    return render(request, 'image/facerecog.html',dict)
 
 
 

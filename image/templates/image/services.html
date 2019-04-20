@@ -1,0 +1,91 @@
+{% extends 'image/base.html' %}
+
+{% block style %}
+
+{% endblock %}
+
+{% block body %}
+    <div class="container-fluid custom-container hidden">
+        <div class="row mt-lg-5 topRow">
+            <div class="col-lg-3">
+                <form action="/canopus/deep-dreams/">
+                    <button id="deepDreams" class="btn btn-outline-info custom-outline" type="submit">Deep Dreams</button>
+                </form>
+            </div>
+            <div class="col-lg-3">
+                <div class="talk-bubble tri-right left-top hidden dreamsBubble">
+                    <div class="talktext">
+                        <p>This one adds a right triangle on the left, flush at the top by using .tri-right and .left-top to specify the location.</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-3">
+                <div class="talk-bubble tri-right right-top hidden styleBubble">
+                    <div class="talktext">
+                        <p>This one adds a right triangle on the left, flush at the top by using .tri-right and .left-top to specify the location.</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-3">
+                <form action="/canopus/style-transfer/">
+                    <button id="styleTransfer" class="btn btn-outline-info custom-outline" type="submit">Style Transfer</button>
+                </form>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-lg-3">
+                <form action="/canopus/img-classification/">
+                    <button id="imageClass" class="btn btn-outline-info custom-outline" type="submit">Image Classification</button>
+                </form>
+            </div>
+            <div class="col-lg-3">
+                <div class="talk-bubble tri-right left-top hidden imgBubble">
+                    <div class="talktext">
+                        <p>This one adds a right triangle on the left, flush at the top by using .tri-right and .left-top to specify the location.</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-3">
+                <div class="talk-bubble tri-right right-top hidden faceBubble">
+                    <div class="talktext">
+                        <p>This one adds a right triangle on the left, flush at the top by using .tri-right and .left-top to specify the location.</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-3">
+                <form action="/canopus/face-recognition/">
+                    <button id="faceRecog" class="btn btn-outline-info custom-outline" type="submit">Face Recognition</button>
+                </form>
+            </div>
+        </div>
+    </div>
+    <script>
+        $(document).ready(function () {
+            $(".custom-container").fadeIn(1000)
+        })
+        $("#deepDreams").mouseover(function () {
+            $(".dreamsBubble").fadeIn()
+        })
+        $("#deepDreams").mouseout(function () {
+            $(".dreamsBubble").fadeOut()
+        })
+        $("#styleTransfer").mouseover(function () {
+            $(".styleBubble").fadeIn()
+        })
+        $("#styleTransfer").mouseout(function () {
+            $(".styleBubble").fadeOut()
+        })
+        $("#imageClass").mouseover(function () {
+            $(".imgBubble").fadeIn()
+        })
+        $("#imageClass").mouseout(function () {
+            $(".imgBubble").fadeOut()
+        })
+        $("#faceRecog").mouseover(function () {
+            $(".faceBubble").fadeIn()
+        })
+        $("#faceRecog").mouseout(function () {
+            $(".faceBubble").fadeOut()
+        })
+    </script>
+{% endblock %}

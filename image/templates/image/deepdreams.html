@@ -1,77 +1,40 @@
 {% extends 'image/base.html' %}
-
 {% load staticfiles %}
 
-<!-- <!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Deep Dreams</title>
-    <link rel="stylesheet" href="{% static 'image/css/bootstrap.min.css' %}">
-    <link rel="stylesheet" href="{% static 'image/css/style.css' %}">
+{% block style %}
 
-    <script type="text/javascript" src="{% static 'image/js/jquery.min.js' %}"></script>
-    <script type="text/javascript" src="{% static 'image/js/bootstrap.min.js' %}"></script>
-</head>
-<body>
- <div id="nav-bar">
-    <nav class="navbar navbar-expand-lg">
-        <div>
-            <div class="navbar-brand brand-font py-0">
-                <a href="/">Canopus</a>
-            </div>
-            <button type="button" class="navbar-toggler" data-toggle="collapse" data-target="#ntopnav">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-        </div>
-        <div class="collapse navbar-collapse" id="ntopnav">
-            <ul class="nav navbar-nav">
-                <li><a href="/">Image Classification</a></li>
-                <li><a href="/canopus/deep-dreams/">Deep Dreams</a></li>
-                <!--<li class="dropdown">
-                    <a class="dropbtn" href="" data-toggle="dropdown">CATEGORY</a>
-                    <div class="dropdown-menu">
-                        <a class="dropdown-item inp1-button" href="/#input" id="inp1-button">Liver</a>
-                        <div class="dropdown-divider"></div>
-                        <a class="dropdown-item inp2-button" href="/#input" id="inp2-button">Breast
-                            Cancer</a>
+{% endblock %}
+
+{% block body %}
+    <div class = "container custom-container hidden">
+        <div class="row">
+            <div class="col-lg-5 offset-lg-3">
+                <div class="card custom-card">
+                    <div class="card-header">
+                        <div class="card-title text-center">
+                            <h4>Deep Dreams</h4>
+                        </div>
                     </div>
-                </li>
-                <li><a href="/canopus/style-trans/" id="about-button">Style Transfer</a></li>
-            </ul>
-        </div>
-    </nav>
-</div> -->
-<div class= "container">
-    {% comment %}
-        <!-- {% if images %}
-            <form action="/band/delete-folder/" method="post">
-            {% csrf_token %}
-            <input type="submit" value="Delete Images"/>
-            </form>
-        {% else %} -->
-        {% endcomment %}
-    <div class="row">
-        <div class="col-lg-6 offset-lg-3">
-            <div class="card topForm">
-                <div class="card-body">
-                    <div class="card-title text-center"><h3>Enter Image to Search</h3></div>
-                    <br>
-                    <form class="" action="/canopus/imageUpload/" method="post" enctype="multipart/form-data">
-                        {% csrf_token %}
-                        <div class="form-group row">
-                            <input class="imgUpload" type="file" name="image"/>
-                        </div>
-                        <div class="form-group row">
-                            <button class="btn" type="submit">Upload Image</button>
-                        </div>
-                    </form>
+                    <div class="card-body">
+                        <form class="custom-form" action="/canopus/imageUpload/" method="post" enctype="multipart/form-data">
+                            {% csrf_token %}
+                            <div class="form-group mt-3">
+                                <input class="imgUpload" type="file" name="image"/>
+                            </div>
+                            <div class="form-group">
+                                <button class="btn btn-custom" type="submit">Upload Image</button>
+                            </div>
+                        </form>
+                    </div>
                 </div>
             </div>
         </div>
+        {% block result %}
+        {% endblock %}
     </div>
-</div>
-
-</body>
-</html>
+    <script>
+        $(document).ready(function () {
+            $(".custom-container").fadeIn(1000)
+        })
+    </script>
+{% endblock %}
