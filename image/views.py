@@ -20,6 +20,10 @@ def services(request):
     return render(request, 'image/services.html')
 
 
+def documentation(request):
+    return render(request, 'image/documentation.html')
+
+
 def imgClass(request):
     return render(request, 'image/imgclass.html')
 

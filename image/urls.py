@@ -12,7 +12,8 @@ urlpatterns = [
     url(r'imageUpload/', views.imageUpload, name='imageupload'),
     url(r'styleUpload/', views.styleUpload, name='styleupload'),
     url(r'face-recognition/', views.faceRecognition, name='faceRecognition'),
-    url(r'services/', views.services, name='services')
+    url(r'services/', views.services, name='services'),
+    url(r'documentation/', views.documentation, name='documentation'),
 ]
 
 urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
