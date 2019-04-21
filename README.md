@@ -13,15 +13,21 @@ Open cmd and go inside Script Folder which is located in ur VirtualEnv Created F
 >>activate
 
 >>pip install tensorflow==1.12.2
+
 >>pip install Django==1.9.4
+
 >>pip install google-images-download
+
 >>pip install Pillow==5.4.1
+
 >>pip install opencv-python==3.4.5.20
 
 #After all this we will build keras from source bcz latest pip version of keras has some problems(Do this outside of ur Virtual Env Folder bcz this will become useless once u are done installing):
 
 >>git clone https://github.com/keras-team/keras.git
+
 >>cd keras
+
 >>python setup.py install
 
 
