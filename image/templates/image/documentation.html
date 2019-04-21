@@ -1,0 +1,93 @@
+{% extends 'image/base.html' %}
+{% load staticfiles %}
+
+{% block style %}
+
+{% endblock %}
+
+{% block body %}
+    <div class = "container-fluid custom-container hidden">
+        <h4 class="mt-3">Introduction</h4>
+        <hr>
+        <div class="row">
+            <div class="doc-intro mt-2 mb-5">
+                <p>
+                    The Multipurpose AI Solution API is a suite of RESTful JSON endpoints that are specifically designed to meet the mission-critical demands of application developers, data scientists, and enterprise business platforms.
+                    This API reference includes all technical documentation developers need to integrate third-party applications and platforms.
+                </p>
+            </div>
+        </div>
+        <h4>Endpoint Overview</h4>
+        <hr>
+        <div class="row">
+            <div class="doc-intro mt-2">
+                <p>
+                    The Multipurpose AI Solutions API has 1 top level entry point:
+                </p>
+            </div>
+        </div>
+        <div class="row">
+            <table class="root-table table-hover table-bordered table-striped">
+                <thead>
+                <tr>
+                    <th class="endpoint">Endpoint</th>
+                    <th class="description">Description</th>
+                    <th class="example">Example Call</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr>
+                    <td>/canopus/</td>
+                    <td>This is the URL path which will be present in all the API calls.</td>
+                    <td>www.example.com/canopus/{endpoint here}</td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+        <div class="row">
+            <div class="doc-intro mt-5">
+                <p>
+                    Top level entry point allows 4 additional API categories:
+                </p>
+            </div>
+        </div>
+        <div class="row">
+            <table class="endpoint-table table-hover table-bordered table-striped">
+                <thead>
+                <tr>
+                    <th class="endpoint">Endpoints</th>
+                    <th class="description">Description</th>
+                    <th class="example">Example Call</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr>
+                    <td>/deep-dreams</td>
+                    <td>Functionality here</td>
+                    <td>www.example.com/canopus/deep-dreams/</td>
+                </tr>
+                <tr>
+                    <td>/style-transfer</td>
+                    <td>Functionality here</td>
+                    <td>www.example.com/canopus/style-transfer/</td>
+                </tr>
+                <tr>
+                    <td>/image-classification</td>
+                    <td>Functionality here</td>
+                    <td>www.example.com/canopus/image-classification/</td>
+                </tr>
+                <tr>
+                    <td>/face-recognition</td>
+                    <td>Functionality here</td>
+                    <td>www.example.com/canopus/face-recognition/</td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <script>
+        $(document).ready(function () {
+            $(".custom-container").fadeIn(1000)
+        })
+    </script>
+{% endblock %}
