@@ -6,6 +6,8 @@
 
 {% block body %}
     <div class="container-fluid custom-container hidden">
+        <h4 class="mt-3">Services</h4>
+        <hr>
         <div class="row mt-lg-5 topRow">
             <div class="col-lg-3">
                 <form action="/canopus/deep-dreams/">
@@ -14,15 +16,15 @@
             </div>
             <div class="col-lg-3">
                 <div class="talk-bubble tri-right left-top hidden dreamsBubble">
-                    <div class="talktext">
-                        <p>This one adds a right triangle on the left, flush at the top by using .tri-right and .left-top to specify the location.</p>
+                    <div class="talktext text-center">
+                        <p class="mt-3">Create a dream-like hallucinogenic appearance in your images!</p>
                     </div>
                 </div>
             </div>
             <div class="col-lg-3">
                 <div class="talk-bubble tri-right right-top hidden styleBubble">
-                    <div class="talktext">
-                        <p>This one adds a right triangle on the left, flush at the top by using .tri-right and .left-top to specify the location.</p>
+                    <div class="talktext text-center">
+                        <p class="mt-3">Enhance your image style by applying the style of ANY other image to yours!</p>
                     </div>
                 </div>
             </div>
@@ -40,15 +42,15 @@
             </div>
             <div class="col-lg-3">
                 <div class="talk-bubble tri-right left-top hidden imgBubble">
-                    <div class="talktext">
-                        <p>This one adds a right triangle on the left, flush at the top by using .tri-right and .left-top to specify the location.</p>
+                    <div class="talktext text-center">
+                        <p class="mt-3">Confirm if your pet is a dog or a cat! Our results are correct.(almost ALWAYS...)</p>
                     </div>
                 </div>
             </div>
             <div class="col-lg-3">
                 <div class="talk-bubble tri-right right-top hidden faceBubble">
-                    <div class="talktext">
-                        <p>This one adds a right triangle on the left, flush at the top by using .tri-right and .left-top to specify the location.</p>
+                    <div class="talktext text-center">
+                        <p class="mt-3">Is it the same person in both the photos, or different?</p>
                     </div>
                 </div>
             </div>
@@ -62,30 +64,30 @@
     <script>
         $(document).ready(function () {
             $(".custom-container").fadeIn(1000)
-        })
-        $("#deepDreams").mouseover(function () {
-            $(".dreamsBubble").fadeIn()
-        })
-        $("#deepDreams").mouseout(function () {
-            $(".dreamsBubble").fadeOut()
-        })
-        $("#styleTransfer").mouseover(function () {
-            $(".styleBubble").fadeIn()
-        })
-        $("#styleTransfer").mouseout(function () {
-            $(".styleBubble").fadeOut()
-        })
-        $("#imageClass").mouseover(function () {
-            $(".imgBubble").fadeIn()
-        })
-        $("#imageClass").mouseout(function () {
-            $(".imgBubble").fadeOut()
-        })
-        $("#faceRecog").mouseover(function () {
-            $(".faceBubble").fadeIn()
-        })
-        $("#faceRecog").mouseout(function () {
-            $(".faceBubble").fadeOut()
+            $("#deepDreams").mouseover(function () {
+                $(".dreamsBubble").fadeIn()
+            })
+            $("#deepDreams").mouseout(function () {
+                $(".dreamsBubble").fadeOut()
+            })
+            $("#styleTransfer").mouseover(function () {
+                $(".styleBubble").fadeIn()
+            })
+            $("#styleTransfer").mouseout(function () {
+                $(".styleBubble").fadeOut()
+            })
+            $("#imageClass").mouseover(function () {
+                $(".imgBubble").fadeIn()
+            })
+            $("#imageClass").mouseout(function () {
+                $(".imgBubble").fadeOut()
+            })
+            $("#faceRecog").mouseover(function () {
+                $(".faceBubble").fadeIn()
+            })
+            $("#faceRecog").mouseout(function () {
+                $(".faceBubble").fadeOut()
+            })
         })
     </script>
 {% endblock %}
