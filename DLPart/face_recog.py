@@ -35,7 +35,7 @@ def verify_if_same(image_path_first,image_path_second):
     
     dist = np.linalg.norm(encoding_first-encoding_second)
     
-    if dist<0.8:
+    if dist < 0.7:
         same_person = True
     else:
         same_person = False

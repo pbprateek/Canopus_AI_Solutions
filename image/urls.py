@@ -5,12 +5,14 @@ from django.conf.urls.static import static
 
 urlpatterns = [
     url(r'^$', views.home, name='index'),
-    url(r'return-weights/', views.calculateWeights, name='scrape'),
+    url(r'image-classification-done/', views.calculateWeights, name='scrape'),
     url(r'img-class/', views.imgClass, name='img'),
-    url(r'deep-dreams/', views.deepDreams, name='dream'),
+    url(r'colorize/', views.colorize, name='dream'),
+    url(r'colorize-done/', views.imageUpload, name='imageupload'),
     url(r'style-trans/', views.styleTransfer, name='style'),
-    url(r'imageUpload/', views.imageUpload, name='imageupload'),
-    url(r'styleUpload/', views.styleUpload, name='styleupload'),
+    url(r'style-transfer-done/', views.styleTransferDone, name='styleTransferDone'),
+    url(r'face-recog/', views.faceRecog, name='feceRecognition'),
+    url(r'recognize-done/', views.styleUpload, name='styleupload'),
     url(r'services/', views.services, name='services'),
 ]
 

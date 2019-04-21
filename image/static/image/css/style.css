@@ -90,3 +90,21 @@ a:hover {
 .imgUpload:hover {
     cursor: pointer;
 }
+
+ .container{
+     padding: 50px 80px;
+     width: 100%
+ }
+
+
+.carousel-inner img {
+    background-color: #333;
+    width: 100%;
+    margin: auto;
+}
+.peopleCarouselImg img {
+    width: auto;
+    height: 625px;
+    max-height: 625px;
+}
+
