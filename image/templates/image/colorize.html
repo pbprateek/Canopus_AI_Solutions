@@ -33,7 +33,7 @@
                             </div>
                         </div>
                         <div class="card-body">
-                            <form class="custom-form" action="/canopus/colorize-done/" method="post" enctype="multipart/form-data">
+                            <form class="custom-form" action="/api/get-colored-image/" method="post" enctype="multipart/form-data">
                                 {% csrf_token %}
                                 <div class="form-group mt-3">
                                     <input class="imgUpload" type="file" name="image"/>

@@ -1,6 +1,7 @@
 import logging
 import os
 import shutil
+import base64
 from django.conf import settings
 from django.core.files.base import ContentFile
 from django.core.files.storage import default_storage
@@ -8,6 +9,8 @@ from django.shortcuts import render
 from google_images_download import google_images_download
 from DLPart.colorize import colorme
 from DLPart.face_recog import verify_if_same
+from django.http import JsonResponse
+
 
 dic = dict()
 
@@ -58,8 +61,10 @@ def imageUpload(request):  # colorization logic
     logger.error(path)
     tmp_file = os.path.join(settings.STATIC_ROOT, path)
     colorme('canopus/media/'+path, path)
+    path = "http://127.0.0.1:8000/static/image/images/" + path
     img = {'image': path}
-    return render(request, 'image/colorize.html', img)
+    # return render(request, 'image/colorize.html', img)
+    return JsonResponse(img)
 
 
 """--------------------------- STYLE TRANSFER -----------------------------"""
