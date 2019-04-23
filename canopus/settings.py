@@ -37,6 +37,7 @@ INSTALLED_APPS = [
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
+    # 'livereload',
     'django.contrib.staticfiles',
 ]
 
@@ -49,6 +50,7 @@ MIDDLEWARE_CLASSES = [
     'django.contrib.auth.middleware.SessionAuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    # 'livereload.middleware.LiveReloadScript'
 ]
 
 ROOT_URLCONF = 'canopus.urls'
