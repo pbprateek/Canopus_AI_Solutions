@@ -6,33 +6,26 @@ import argparse
 from keras.applications import vgg19
 from keras import backend as K
 
-parser = argparse.ArgumentParser(description='Neural style transfer with Keras.')
-parser.add_argument('--iter', type=int, default=10, required=False,
-                    help='Number of iterations to run.')
-parser.add_argument('--content_weight', type=float, default=0.025, required=False,
-                    help='Content weight.')
-parser.add_argument('--style_weight', type=float, default=1.0, required=False,
-                    help='Style weight.')
-parser.add_argument('--tv_weight', type=float, default=1.0, required=False,
-                    help='Total Variation weight.')
 
-args = parser.parse_args()
-base_image_path = 'base.jpg'
-style_reference_image_path = 'style.jpg'
-result_prefix = 'st'
-iterations = 10
+class Evaluator(object):
 
-# these are the weights of the different loss components
-total_variation_weight = args.tv_weight
-style_weight = args.style_weight
-content_weight = args.content_weight
+    def __init__(self):
+        self.loss_value = None
+        self.grads_values = None
 
-# dimensions of the generated picture.
-width, height = load_img(base_image_path).size
-img_nrows = 400
-img_ncols = int(width * img_nrows / height)
+    def loss(self, x):
+        assert self.loss_value is None
+        loss_value, grad_values = eval_loss_and_grads(x)
+        self.loss_value = loss_value
+        self.grad_values = grad_values
+        return self.loss_value
 
-# util function to open, resize and format pictures into appropriate tensors
+    def grads(self, x):
+        assert self.loss_value is not None
+        grad_values = np.copy(self.grad_values)
+        self.loss_value = None
+        self.grad_values = None
+        return grad_values
 
 
 def preprocess_image(image_path):
@@ -41,6 +34,7 @@ def preprocess_image(image_path):
     img = np.expand_dims(img, axis=0)
     img = vgg19.preprocess_input(img)
     return img
+
 
 # util function to convert a tensor into a valid image
 
@@ -59,29 +53,6 @@ def deprocess_image(x):
     x = x[:, :, ::-1]
     x = np.clip(x, 0, 255).astype('uint8')
     return x
-
-# get tensor representations of our images
-base_image = K.variable(preprocess_image(base_image_path))
-style_reference_image = K.variable(preprocess_image(style_reference_image_path))
-
-# this will contain our generated image
-if K.image_data_format() == 'channels_first':
-    combination_image = K.placeholder((1, 3, img_nrows, img_ncols))
-else:
-    combination_image = K.placeholder((1, img_nrows, img_ncols, 3))
-
-
-input_tensor = K.concatenate([base_image,
-                              style_reference_image,
-                              combination_image], axis=0)
-
-
-model = vgg19.VGG19(input_tensor=input_tensor,
-                    weights='imagenet', include_top=False)
-print('Model loaded.')
-
-# get the symbolic outputs of each "key" layer (we gave them unique names).
-outputs_dict = dict([(layer.name, layer.output) for layer in model.layers])
 
 
 def gram_matrix(x):
@@ -103,6 +74,7 @@ def style_loss(style, combination):
     size = img_nrows * img_ncols
     return K.sum(K.square(S - C)) / (4.0 * (channels ** 2) * (size ** 2))
 
+
 # an auxiliary loss function
 # designed to maintain the "content" of the
 # base image in the generated image
@@ -111,8 +83,22 @@ def style_loss(style, combination):
 def content_loss(base, combination):
     return K.sum(K.square(combination - base))
 
+
 # the 3rd loss function, total variation loss,
 # designed to keep the generated image locally coherent
+
+def eval_loss_and_grads(x):
+    if K.image_data_format() == 'channels_first':
+        x = x.reshape((1, 3, img_nrows, img_ncols))
+    else:
+        x = x.reshape((1, img_nrows, img_ncols, 3))
+    outs = f_outputs([x])
+    loss_value = outs[0]
+    if len(outs[1:]) == 1:
+        grad_values = outs[1].flatten().astype('float64')
+    else:
+        grad_values = np.array(outs[1:]).flatten().astype('float64')
+    return loss_value, grad_values
 
 
 def total_variation_loss(x):
@@ -129,7 +115,58 @@ def total_variation_loss(x):
             x[:, :img_nrows - 1, :img_ncols - 1, :] - x[:, :img_nrows - 1, 1:, :])
     return K.sum(K.pow(a + b, 1.25))
 
-# combine these loss functions into a single scalar
+
+
+parser = argparse.ArgumentParser(description='Neural style transfer with Keras.')
+parser.add_argument('--iter', type=int, default=10, required=False,
+                    help='Number of iterations to run.')
+parser.add_argument('--content_weight', type=float, default=0.025, required=False,
+                    help='Content weight.')
+parser.add_argument('--style_weight', type=float, default=1.0, required=False,
+                    help='Style weight.')
+parser.add_argument('--tv_weight', type=float, default=1.0, required=False,
+                    help='Total Variation weight.')
+
+args = parser.parse_args()
+base_image_path = ''
+style_reference_image_path = ''
+result_prefix = 'st'
+iterations = 5
+
+# these are the weights of the different loss components
+total_variation_weight = args.tv_weight
+style_weight = args.style_weight
+content_weight = args.content_weight
+
+# dimensions of the generated picture.
+width, height = load_img(base_image_path).size
+img_nrows = 400
+img_ncols = int(width * img_nrows / height)
+
+# util function to open, resize and format pictures into appropriate tensors
+
+
+# get tensor representations of our images
+base_image = K.variable(preprocess_image(base_image_path))
+style_reference_image = K.variable(preprocess_image(style_reference_image_path))
+
+# this will contain our generated image
+if K.image_data_format() == 'channels_first':
+    combination_image = K.placeholder((1, 3, img_nrows, img_ncols))
+else:
+    combination_image = K.placeholder((1, img_nrows, img_ncols, 3))
+
+input_tensor = K.concatenate([base_image,
+                              style_reference_image,
+                              combination_image], axis=0)
+
+model = vgg19.VGG19(input_tensor=input_tensor,
+                    weights='imagenet', include_top=False)
+print('Model loaded.')
+
+# get the symbolic outputs of each "key" layer (we gave them unique names).
+outputs_dict = dict([(layer.name, layer.output) for layer in model.layers])
+
 loss = K.variable(0.0)
 layer_features = outputs_dict['block5_conv2']
 base_image_features = layer_features[0, :, :, :]
@@ -159,20 +196,6 @@ else:
 
 f_outputs = K.function([combination_image], outputs)
 
-
-def eval_loss_and_grads(x):
-    if K.image_data_format() == 'channels_first':
-        x = x.reshape((1, 3, img_nrows, img_ncols))
-    else:
-        x = x.reshape((1, img_nrows, img_ncols, 3))
-    outs = f_outputs([x])
-    loss_value = outs[0]
-    if len(outs[1:]) == 1:
-        grad_values = outs[1].flatten().astype('float64')
-    else:
-        grad_values = np.array(outs[1:]).flatten().astype('float64')
-    return loss_value, grad_values
-
 # this Evaluator class makes it possible
 # to compute loss and gradients in one pass
 # while retrieving them via two separate functions,
@@ -180,26 +203,6 @@ def eval_loss_and_grads(x):
 # requires separate functions for loss and gradients,
 # but computing them separately would be inefficient.
 
-
-class Evaluator(object):
-
-    def __init__(self):
-        self.loss_value = None
-        self.grads_values = None
-
-    def loss(self, x):
-        assert self.loss_value is None
-        loss_value, grad_values = eval_loss_and_grads(x)
-        self.loss_value = loss_value
-        self.grad_values = grad_values
-        return self.loss_value
-
-    def grads(self, x):
-        assert self.loss_value is not None
-        grad_values = np.copy(self.grad_values)
-        self.loss_value = None
-        self.grad_values = None
-        return grad_values
 
 evaluator = Evaluator()
 
@@ -215,7 +218,7 @@ for i in range(iterations):
     # save current generated image
     img = deprocess_image(x.copy())
 
-    if i == 9:
-        fname = result_prefix + '_at_iteration_%d.png' % i
+    if i == 4:
+        fname = result_prefix + '%d.png' % i
         save_img(fname, img)
         print('Image saved as', fname)
