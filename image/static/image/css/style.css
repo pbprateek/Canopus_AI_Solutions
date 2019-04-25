@@ -264,10 +264,17 @@ td, th {
 .doc-intro {
     width: 60%;
 }
+.carousel-container {
+    width: 100%!important;
+}
 .carousel {
-    margin-left: 5%;
+    margin: auto;
+    margin-top: -100px;
     width: 800px;
     text-align: center;
+}
+.carousel-item img {
+    padding-top: 200px;
 }
 .carousel img {
     width: 200px;
