@@ -59,9 +59,8 @@ def defineModel(folder_name):
         plt.ylabel('Loss')
         plt.xlabel('Epoch')
 
-
-        model.save('%s.h5' % folder_name)
-        plt.savefig('%s.png'%folder_name)
+        model.save('weights.h5')
+        plt.savefig('image/static/image/images/graph.png')
 
         '''
         Our Default folder is Canopus_AI_Solution so above model and image will get saved in that folder(refering 

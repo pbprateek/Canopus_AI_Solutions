@@ -38,8 +38,10 @@ def imgClass(request):
 def calculateWeights(request):   # Classification Logic
     cat1 = request.POST["input1"]
     cat2 = request.POST["input2"]
-    train_weights_Image_classifier(cat1,cat2)
-    return render(request, 'image/imgclass.html', dic)
+    accuracy = train_weights_Image_classifier(cat1, cat2)
+    deleteImages(cat1, cat2)
+    dic1 = {'done': True, 'Accuracy': accuracy}
+    return render(request, 'image/imgclass.html', dic1)
 
 
 """ ------------------------- COLORIZATION -------------------------"""
@@ -56,10 +58,9 @@ def imageUpload(request):  # colorization logic
     logger.error(path)
     tmp_file = os.path.join(settings.STATIC_ROOT, path)
     colorme('canopus/media/'+path, path)
-    path = "http://127.0.0.1:8000/static/image/images/" + path
+    #path = "http://127.0.0.1:8000/static/image/images/" + path
     img = {'image': path}
-    # return render(request, 'image/colorize.html', img)
-    return JsonResponse(img)
+    return render(request, 'image/colorize.html', img)
 
 
 """--------------------------- STYLE TRANSFER -----------------------------"""
@@ -101,13 +102,16 @@ def faceRecogDone(request):
 def deleteImages(cat1, cat2):
     try:
         print(os.getcwd())
-        # path = os.getcwd()
-        directory = "Pictures/" + cat1
+        path = os.getcwd()
+        print(path)
+        directory = "DLPart\ImageClassifierJunk\\" + cat1 + cat2 + "\\" + cat1
         shutil.rmtree(directory)
-        directory = "Pictures/" + cat2
+        directory = "DLPart\ImageClassifierJunk\\" + cat1 + cat2 + "\\" + cat2
+        shutil.rmtree(directory)
+        directory = "DLPart\ImageClassifierJunk\\" + cat1 + cat2
         shutil.rmtree(directory)
 
     except OSError as e:
         print("Error: %s - %s." % (e.filename, e.strerror))
-    del dic["images"]
-    # return render(request, 'image/home.html', dic)
+    # del dic["images"]
+    #return render(request, 'image/home.html', dic)
