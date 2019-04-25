@@ -12,7 +12,7 @@ import matplotlib.pyplot as plt
 def downloadImages(keywords, folder_name):
     response = google_images_download.googleimagesdownload()  # class instantiation
     #TODO change limit to 80 for final Demo
-    arguments = {"keywords": keywords, "limit": 20,
+    arguments = {"keywords": keywords, "limit": 4,
                  "output_directory": "DLPart/ImageClassifierJunk/" + folder_name}  # creating list of arguments
     response.download(arguments)  # passing the arguments to the function
 
@@ -58,10 +58,8 @@ def defineModel(folder_name):
         plt.title('Model loss')
         plt.ylabel('Loss')
         plt.xlabel('Epoch')
-
-
-        model.save('%s.h5' % folder_name)
-        plt.savefig('%s.png'%folder_name)
+        model.save('weights.h5')
+        plt.savefig('image/static/image/images/graph.png')
 
         '''
         Our Default folder is Canopus_AI_Solution so above model and image will get saved in that folder(refering 

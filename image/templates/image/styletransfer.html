@@ -1,10 +1,15 @@
 {% extends 'image/base.html' %}
 
-{% block style %}
-
-{% endblock %}
+{% load staticfiles %}
 
 {% block body %}
+
+    {% if done %}
+
+    <img/>
+
+    {% else %}
+
     <div class = "container custom-container hidden">
         <div class="row">
             <div class="col-lg-6 offset-lg-3">
@@ -32,6 +37,8 @@
             </div>
         </div>
     </div>
+
+    {% endif %}
     <script>
         $(document).ready(function () {
             $(".custom-container").fadeIn(1000)

@@ -2,16 +2,18 @@ import logging
 import os
 import base64
 from django.http import JsonResponse
+import shutil
 
 from django.conf import settings
 from django.core.files.base import ContentFile
 from django.core.files.storage import default_storage
-from django.shortcuts import render
+# from django.views.decorators.csrf import csrf_exempt
 
 from DLPart.colorize import colorme
 from DLPart.face_recog import verify_if_same
 
 
+# @csrf_exempt
 def colorizeAPI(request):  # colorization logic
     logger = logging.getLogger(__name__)
     img = request.FILES['image']
@@ -27,6 +29,7 @@ def colorizeAPI(request):  # colorization logic
 
 def faceRecogApi(request):
     logger = logging.getLogger(__name__)
+    '''
     img = request.FILES['image1']
     path1 = default_storage.save('tmp/style1.jpeg', ContentFile(img.read()))
     img = request.FILES['image2']
@@ -35,3 +38,11 @@ def faceRecogApi(request):
     dic1 = {'same_person': same_person}
     # return render(request, 'image/facerecog.html', dic1)
     return JsonResponse(dic1)
+    '''
+    if request.method == 'POST':
+        myfile = request.FILES['image1']
+
+    dic1 = {'same_person': "abc"}
+    # return render(request, 'image/facerecog.html', dic1)
+    return JsonResponse(dic1)
+

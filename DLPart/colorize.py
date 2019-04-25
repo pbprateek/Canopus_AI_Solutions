@@ -45,11 +45,11 @@ def colorme(path_to_image, image_name):
 
     cur = cv.cvtColor(img_lab_out, cv.COLOR_Lab2BGR)
     img_bgr_out = np.clip(cur, 0, 1)
-    img_bgr_out=img_bgr_out*255
+    img_bgr_out = img_bgr_out*255
 
-    cv.imwrite('image/static/image/images/'+image_name,img_bgr_out)
+    cv.imwrite('image/static/image/images/'+image_name, img_bgr_out)
 
-    #imshow needs int bet 0 to 1 but imwrite needs bet 0 to 255 , and default color mode for opencv is BGR
+    # imshow needs int bet 0 to 1 but imwrite needs bet 0 to 255 , and default color mode for opencv is BGR
 
 
 
