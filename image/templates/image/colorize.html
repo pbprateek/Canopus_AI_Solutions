@@ -7,12 +7,12 @@
     {% if image %}
         <div class="row">
             <div class="col-lg-5 offset-lg-3">
-                {% if image %}
+
                     <div class="result text-center hidden">
                         <img class="result-img" src="{% static "image/images/" %}{{ image }}"/>
                         <p class="mt-3">Colorized Image</p>
                     </div>
-                {% endif %}
+
             </div>
         </div>
         <script>
@@ -33,7 +33,7 @@
                             </div>
                         </div>
                         <div class="card-body">
-                            <form class="custom-form" action="/api/get-colored-image/" method="post" enctype="multipart/form-data">
+                            <form class="custom-form" action="/canopus/colorize-done/" method="post" enctype="multipart/form-data">
                                 {% csrf_token %}
                                 <div class="form-group mt-3">
                                     <input class="imgUpload" type="file" name="image"/>

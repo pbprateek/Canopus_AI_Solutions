@@ -4,6 +4,17 @@
 
 
 {% block body %}
+
+    {% if done %}
+
+        {% if same_person %}
+            <p> Same person </p>
+        {% else %}
+            <p> Different person </p>
+        {% endif %}
+
+    {% else %}
+
         <div class = "container custom-container hidden">
             <div class="row">
                 <div class="col-lg-6 offset-lg-3">
@@ -14,7 +25,7 @@
                             </div>
                         </div>
                         <div class="card-body">
-                            <form class="custom-form" action="/api/recognize-face/" method="post" enctype="multipart/form-data">
+                            <form class="custom-form" action="/canopus/face-recognition-done/" method="post" enctype="multipart/form-data">
                                 {% csrf_token %}
                                 <div class="form-group mt-3">
                                     <input class="imgUpload" type="file" name="image1"/>
@@ -31,5 +42,6 @@
                 </div>
             </div>
         </div>
-    </div>
+
+    {% endif %}
 {% endblock %}
