@@ -116,109 +116,111 @@ def total_variation_loss(x):
     return K.sum(K.pow(a + b, 1.25))
 
 
+def style_transfer(base_image1 , style_image1 , image_name):
 
-parser = argparse.ArgumentParser(description='Neural style transfer with Keras.')
-parser.add_argument('--iter', type=int, default=10, required=False,
-                    help='Number of iterations to run.')
-parser.add_argument('--content_weight', type=float, default=0.025, required=False,
-                    help='Content weight.')
-parser.add_argument('--style_weight', type=float, default=1.0, required=False,
-                    help='Style weight.')
-parser.add_argument('--tv_weight', type=float, default=1.0, required=False,
-                    help='Total Variation weight.')
+    global img_nrows , img_ncols ,f_outputs
 
-args = parser.parse_args()
-base_image_path = ''
-style_reference_image_path = ''
-result_prefix = 'st'
-iterations = 5
-
-# these are the weights of the different loss components
-total_variation_weight = args.tv_weight
-style_weight = args.style_weight
-content_weight = args.content_weight
-
-# dimensions of the generated picture.
-width, height = load_img(base_image_path).size
-img_nrows = 400
-img_ncols = int(width * img_nrows / height)
-
-# util function to open, resize and format pictures into appropriate tensors
+    parser = argparse.ArgumentParser(description='Neural style transfer with Keras.')
+    parser.add_argument('--iter', type=int, default=10, required=False,
+                        help='Number of iterations to run.')
+    parser.add_argument('--content_weight', type=float, default=0.025, required=False,
+                        help='Content weight.')
+    parser.add_argument('--style_weight', type=float, default=1.0, required=False,
+                        help='Style weight.')
+    parser.add_argument('--tv_weight', type=float, default=1.0, required=False,
+                        help='Total Variation weight.')
 
 
-# get tensor representations of our images
-base_image = K.variable(preprocess_image(base_image_path))
-style_reference_image = K.variable(preprocess_image(style_reference_image_path))
+    args = parser.parse_args()
+    base_image_path = base_image1
+    style_reference_image_path = style_image1
+    iterations = 1
 
-# this will contain our generated image
-if K.image_data_format() == 'channels_first':
-    combination_image = K.placeholder((1, 3, img_nrows, img_ncols))
-else:
-    combination_image = K.placeholder((1, img_nrows, img_ncols, 3))
+    # these are the weights of the different loss components
+    total_variation_weight = args.tv_weight
+    style_weight = args.style_weight
+    content_weight = args.content_weight
 
-input_tensor = K.concatenate([base_image,
-                              style_reference_image,
-                              combination_image], axis=0)
+    # dimensions of the generated picture.
+    width, height = load_img(base_image_path).size
+    img_nrows = 400
+    img_ncols = int(width * img_nrows / height)
 
-model = vgg19.VGG19(input_tensor=input_tensor,
-                    weights='imagenet', include_top=False)
-print('Model loaded.')
+    # util function to open, resize and format pictures into appropriate tensors
 
-# get the symbolic outputs of each "key" layer (we gave them unique names).
-outputs_dict = dict([(layer.name, layer.output) for layer in model.layers])
 
-loss = K.variable(0.0)
-layer_features = outputs_dict['block5_conv2']
-base_image_features = layer_features[0, :, :, :]
-combination_features = layer_features[2, :, :, :]
-loss += content_weight * content_loss(base_image_features,
-                                      combination_features)
+    # get tensor representations of our images
+    base_image = K.variable(preprocess_image(base_image_path))
+    style_reference_image = K.variable(preprocess_image(style_reference_image_path))
 
-feature_layers = ['block1_conv1', 'block2_conv1',
-                  'block3_conv1', 'block4_conv1',
-                  'block5_conv1']
-for layer_name in feature_layers:
-    layer_features = outputs_dict[layer_name]
-    style_reference_features = layer_features[1, :, :, :]
+    # this will contain our generated image
+    if K.image_data_format() == 'channels_first':
+        combination_image = K.placeholder((1, 3, img_nrows, img_ncols))
+    else:
+        combination_image = K.placeholder((1, img_nrows, img_ncols, 3))
+
+    input_tensor = K.concatenate([base_image,
+                                  style_reference_image,
+                                  combination_image], axis=0)
+
+    model = vgg19.VGG19(input_tensor=input_tensor,
+                        weights='imagenet', include_top=False)
+    print('Model loaded.')
+
+    # get the symbolic outputs of each "key" layer (we gave them unique names).
+    outputs_dict = dict([(layer.name, layer.output) for layer in model.layers])
+
+    loss = K.variable(0.0)
+    layer_features = outputs_dict['block5_conv2']
+    base_image_features = layer_features[0, :, :, :]
     combination_features = layer_features[2, :, :, :]
-    sl = style_loss(style_reference_features, combination_features)
-    loss += (style_weight / len(feature_layers)) * sl
-loss += total_variation_weight * total_variation_loss(combination_image)
+    loss += content_weight * content_loss(base_image_features,
+                                          combination_features)
 
-# get the gradients of the generated image wrt the loss
-grads = K.gradients(loss, combination_image)
+    feature_layers = ['block1_conv1', 'block2_conv1',
+                      'block3_conv1', 'block4_conv1',
+                      'block5_conv1']
+    for layer_name in feature_layers:
+        layer_features = outputs_dict[layer_name]
+        style_reference_features = layer_features[1, :, :, :]
+        combination_features = layer_features[2, :, :, :]
+        sl = style_loss(style_reference_features, combination_features)
+        loss += (style_weight / len(feature_layers)) * sl
+    loss += total_variation_weight * total_variation_loss(combination_image)
 
-outputs = [loss]
-if isinstance(grads, (list, tuple)):
-    outputs += grads
-else:
-    outputs.append(grads)
+    # get the gradients of the generated image wrt the loss
+    grads = K.gradients(loss, combination_image)
 
-f_outputs = K.function([combination_image], outputs)
+    outputs = [loss]
+    if isinstance(grads, (list, tuple)):
+        outputs += grads
+    else:
+        outputs.append(grads)
 
-# this Evaluator class makes it possible
-# to compute loss and gradients in one pass
-# while retrieving them via two separate functions,
-# "loss" and "grads". This is done because scipy.optimize
-# requires separate functions for loss and gradients,
-# but computing them separately would be inefficient.
+    f_outputs = K.function([combination_image], outputs)
 
 
-evaluator = Evaluator()
+    evaluator = Evaluator()
+    x = preprocess_image(base_image_path)
 
-# run scipy-based optimization (L-BFGS) over the pixels of the generated image
-# so as to minimize the neural style loss
-x = preprocess_image(base_image_path)
 
-for i in range(iterations):
-    print('Start of iteration', i)
-    x, min_val, info = fmin_l_bfgs_b(evaluator.loss, x.flatten(),
-                                     fprime=evaluator.grads, maxfun=20)
-    print('Current loss value:', min_val)
-    # save current generated image
-    img = deprocess_image(x.copy())
 
-    if i == 4:
-        fname = result_prefix + '%d.png' % i
-        save_img(fname, img)
-        print('Image saved as', fname)
+    for i in range(iterations):
+        print('Start of iteration', i)
+        x, min_val, info = fmin_l_bfgs_b(evaluator.loss, x.flatten(),
+                                         fprime=evaluator.grads, maxfun=20)
+        print('Current loss value:', min_val)
+        # save current generated image
+        img = deprocess_image(x.copy())
+
+        if i == 4:
+            #fname = result_prefix + '%d.png' % i
+            fname = image_name
+            save_img('image/static/image/images/'+fname, img)
+            #print('Image saved as', fname)
+
+
+#style_transfer('andrew1.png' , 'andrew2.png')
+
+
+
