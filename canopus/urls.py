@@ -17,7 +17,9 @@ from django.conf.urls import url, include
 from django.contrib import admin
 from image import views
 
+
 urlpatterns = [
+    url(r'^api/', include('apiTool.urls')),
     url(r'^canopus/', include('image.urls')),
     url(r'^admin/', admin.site.urls),
     url(r'^$', views.home),
