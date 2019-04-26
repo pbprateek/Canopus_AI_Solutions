@@ -11,6 +11,7 @@ from DLPart.colorize import colorme
 from DLPart.face_recog import verify_if_same
 from django.http import JsonResponse
 from DLPart.image_classification import train_weights_Image_classifier
+from DLPart.style import style_transfer
 
 
 dic = dict()
@@ -52,13 +53,9 @@ def colorize(request):
 
 
 def imageUpload(request):  # colorization logic
-    logger = logging.getLogger(__name__)
     img = request.FILES['image']
-    path = default_storage.save('tmp/deep.jpeg', ContentFile(img.read()))
-    logger.error(path)
-    tmp_file = os.path.join(settings.STATIC_ROOT, path)
+    path = default_storage.save('tmp/colored.jpeg', ContentFile(img.read()))
     colorme('canopus/media/'+path, path)
-    #path = "http://127.0.0.1:8000/static/image/images/" + path
     img = {'image': path}
     return render(request, 'image/colorize.html', img)
 
@@ -71,10 +68,13 @@ def styleTransfer(request):
 
 
 def styleTransferDone(request):  # Style Transfer logic
-    """"
-        Style Transfer logic goes here. Render the same page. Will use if condition to display result accordingly!
-    """
-    return render(request, 'image/styletransfer.html')
+    img1 = request.FILES['image1']
+    img2 = request.FILES['image2']
+    img1_path = default_storage.save('tmp/style1.jpeg', ContentFile(img1.read()))
+    img2_path = default_storage.save('tmp/style2.jpeg', ContentFile(img2.read()))
+    style_transfer('canopus/media/'+img1_path, 'canopus/media/'+img2_path, img2_path)
+    out = {'coloured_img': img2_path}
+    return render(request, 'image/styletransfer.html', out)
 
 
 """-------------------------- FACIAL RECOGNITION --------------------------------"""

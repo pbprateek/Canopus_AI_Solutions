@@ -1,35 +1,52 @@
 {% extends 'image/base.html' %}
 
-{% block style %}
-
-{% endblock %}
+{% load staticfiles %}
 
 {% block body %}
-    <div class = "container custom-container hidden">
+    {% if coloured_img %}
+
         <div class="row">
-            <div class="col-lg-6 offset-lg-3">
-                <div class="card custom-card">
-                    <div class="card-header">
-                        <div class="card-title text-center">
-                            <h4>Style Transfer</h4>
+            <div class="col-lg-5 offset-lg-3">
+                <div class="result text-center">
+                    <img class="result-img" src="{% static "image/images/" %}{{ coloured_img }}"/>
+                    <p class="mt-3">Style Transferred Image</p>
+                </div>
+            </div>
+        </div>
+
+    {% else %}
+
+        <div class = "container custom-container hidden">
+            <div class="row">
+                <div class="col-lg-6 offset-lg-3">
+                    <div class="card custom-card">
+                        <div class="card-header">
+                            <div class="card-title text-center">
+                                <h4>Style Transfer</h4>
+                            </div>
                         </div>
-                    </div>
-                    <div class="card-body">
-                        <form class="custom-form" action="/canopus/styleUpload/" method="post" enctype="multipart/form-data">
-                            {% csrf_token %}
-                            <div class="form-group mt-3">
-                                <input class="imgUpload" type="file" name="image1"/>
-                            </div>
-                            <div class="form-group">
-                                <input class="imgUpload" type="file" name="image2"/>
-                            </div>
-                            <div class="form-group">
-                                <button class="btn btn-custom" type="submit"><i class="fa fa-upload" aria-hidden="true"></i>&nbsp; Upload Image</button>
-                            </div>
-                        </form>
+                        <div class="card-body">
+                            <form class="custom-form" action="/canopus/style-transfer-done/" method="post" enctype="multipart/form-data">
+                                {% csrf_token %}
+                                <div class="form-group mt-3">
+                                    <input class="imgUpload" type="file" name="image1"/>
+                                </div>
+                                <div class="form-group">
+                                    <input class="imgUpload" type="file" name="image2"/>
+                                </div>
+                                <div class="form-group">
+                                    <button class="btn btn-custom" type="submit"><i class="fa fa-upload" aria-hidden="true"></i>&nbsp; Upload Image</button>
+                                </div>
+                            </form>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
-    </div>
+        <script>
+            $(document).ready(function () {
+                $(".result").fadeIn(3000)
+            })
+        </script>
+    {% endif %}
 {% endblock %}

@@ -116,30 +116,17 @@ def total_variation_loss(x):
     return K.sum(K.pow(a + b, 1.25))
 
 
-def style_transfer(base_image1 , style_image1 , image_name):
+def style_transfer(base_image1, style_image1, image_name):
+    global img_nrows, img_ncols, f_outputs
 
-    global img_nrows , img_ncols ,f_outputs
-
-    parser = argparse.ArgumentParser(description='Neural style transfer with Keras.')
-    parser.add_argument('--iter', type=int, default=10, required=False,
-                        help='Number of iterations to run.')
-    parser.add_argument('--content_weight', type=float, default=0.025, required=False,
-                        help='Content weight.')
-    parser.add_argument('--style_weight', type=float, default=1.0, required=False,
-                        help='Style weight.')
-    parser.add_argument('--tv_weight', type=float, default=1.0, required=False,
-                        help='Total Variation weight.')
-
-
-    args = parser.parse_args()
     base_image_path = base_image1
     style_reference_image_path = style_image1
     iterations = 1
 
     # these are the weights of the different loss components
-    total_variation_weight = args.tv_weight
-    style_weight = args.style_weight
-    content_weight = args.content_weight
+    total_variation_weight = 1.0
+    style_weight = 1.0
+    content_weight = 0.025
 
     # dimensions of the generated picture.
     width, height = load_img(base_image_path).size
@@ -147,7 +134,6 @@ def style_transfer(base_image1 , style_image1 , image_name):
     img_ncols = int(width * img_nrows / height)
 
     # util function to open, resize and format pictures into appropriate tensors
-
 
     # get tensor representations of our images
     base_image = K.variable(preprocess_image(base_image_path))
@@ -199,11 +185,8 @@ def style_transfer(base_image1 , style_image1 , image_name):
 
     f_outputs = K.function([combination_image], outputs)
 
-
     evaluator = Evaluator()
     x = preprocess_image(base_image_path)
-
-
 
     for i in range(iterations):
         print('Start of iteration', i)
@@ -213,14 +196,10 @@ def style_transfer(base_image1 , style_image1 , image_name):
         # save current generated image
         img = deprocess_image(x.copy())
 
-        if i == 4:
-            #fname = result_prefix + '%d.png' % i
+        if i == 0:
+            # fname = result_prefix + '%d.png' % i
             fname = image_name
-            save_img('image/static/image/images/'+fname, img)
-            #print('Image saved as', fname)
+            save_img('image/static/image/images/' + fname, img)
+            # print('Image saved as', fname)
 
-
-#style_transfer('andrew1.png' , 'andrew2.png')
-
-
-
+# style_transfer('andrew1.png' , 'andrew2.png')
