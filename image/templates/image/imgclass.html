@@ -3,45 +3,37 @@
 {% load staticfiles %}
 
 {% block body %}
-
     {% if done %}
-
-    <div class="container">
-        <p>Cost Graph:</p>
-        <img src={% static 'image/images/graph.png' %}/>
-        <p>Accuracy = {{ Accuracy }}</p>
-    </div>
-
+        {% block resultImgClass %}
+        {% endblock %}
     {% else %}
 
-    <div class = "container custom-container hidden">
-        <div class="row">
-            <div class="col-lg-6 offset-lg-3">
-                <div class="card custom-card">
-                    <div class="card-header">
-                        <div class="card-title text-center">
-                            <h4>Image Classification</h4>
+        <div class = "container custom-container hidden">
+            <div class="row">
+                <div class="col-lg-6 offset-lg-3">
+                    <div class="card custom-card">
+                        <div class="card-header">
+                            <div class="card-title text-center">
+                                <h4>Image Classification</h4>
+                            </div>
                         </div>
-                    </div>
-                    <div class="card-body">
-                        <form class="custom-form" action="/canopus/img-classification-done/" method="post">
-                            {% csrf_token %}
-                            <div class="form-group mt-3">
-                                <input type="text" id="input1" name="input1" class="form-control" placeholder="Enter input 1" required/>
-                            </div>
-                            <div class="form-group">
-                                <input type="text" id="input2" name="input2" class="form-control" placeholder="Enter input 2" required/>
-                            </div>
-                            <div class="form-group">
-                                <button class="btn btn-custom" type="submit"><i class="fa fa-download" aria-hidden="true"></i>&nbsp; Download Images</button>
-                            </div>
-                        </form>
+                        <div class="card-body">
+                            <form class="custom-form" action="/canopus/img-classification-done/" method="post">
+                                {% csrf_token %}
+                                <div class="form-group mt-3">
+                                    <input type="text" id="input1" name="input1" class="form-control" placeholder="Enter input 1" required/>
+                                </div>
+                                <div class="form-group">
+                                    <input type="text" id="input2" name="input2" class="form-control" placeholder="Enter input 2" required/>
+                                </div>
+                                <div class="form-group">
+                                    <button class="btn btn-custom" type="submit"><i class="fa fa-download" aria-hidden="true"></i>&nbsp; Download Images</button>
+                                </div>
+                            </form>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
-    </div>
-
     {% endif %}
-
 {% endblock %}

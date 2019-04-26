@@ -1,0 +1,26 @@
+{% extends 'image/imgclass.html' %}
+{% load staticfiles %}
+
+{% block resultImgClass %}
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 offset-lg-2 mt-5">
+                <div class="resultGraph hidden">
+                    <p>Cost Graph:</p>
+                    <img class="result-img" alt="Graph" src="{% static 'image/images/graph.png' %}" width="500px" height="350px"/>
+                </div>
+            </div>
+        </div>
+        <div class="row resultGraph hidden">
+            <div class="col-lg-8 offset-lg-3 mt-2">
+                <span>Accuracy = {{ Accuracy }}</span>
+                <a class="ml-5" href={% static 'image/weights/weights.h5' %}><i class="fa fa-download" aria-hidden="true"></i>&nbsp; Download Weights</a>
+            </div>
+        </div>
+    </div>
+    <script>
+        $(document).ready(function () {
+            $(".resultGraph").fadeIn(3000)
+        })
+    </script>
+{% endblock %}

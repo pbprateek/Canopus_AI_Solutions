@@ -10,14 +10,16 @@ import matplotlib.pyplot as plt
 
 
 def downloadImages(keywords, folder_name):
+    return
     response = google_images_download.googleimagesdownload()  # class instantiation
     #TODO change limit to 80 for final Demo
-    arguments = {"keywords": keywords, "limit": 20,
+    arguments = {"keywords": keywords, "limit": 5,
                  "output_directory": "DLPart/ImageClassifierJunk/" + folder_name}  # creating list of arguments
     response.download(arguments)  # passing the arguments to the function
 
 
 def defineModel(folder_name):
+    return
     K.clear_session()
     global graph, model
     train_dir = "DLPart/ImageClassifierJunk/" + folder_name
@@ -59,7 +61,7 @@ def defineModel(folder_name):
         plt.ylabel('Loss')
         plt.xlabel('Epoch')
 
-        model.save('weights.h5')
+        model.save('image/static/image/weights/weights.h5')
         plt.savefig('image/static/image/images/graph.png')
 
         '''
@@ -78,8 +80,6 @@ def train_weights_Image_classifier(query1, query2):
     keywords = query1 + "," + query2
     foldername = query1 + query2
     downloadImages(keywords, foldername)
-    defineModel(foldername)
-
-
-
+    a=defineModel(foldername)
+    return a
 

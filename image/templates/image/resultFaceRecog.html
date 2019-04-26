@@ -1,0 +1,21 @@
+{% extends 'image/facerecog.html' %}
+{% load staticfiles %}
+
+{% block resultFaceRecog %}
+            <div class="row mt-2">
+                <div class="col-lg-6 offset-lg-3">
+                    <div class="result text-center hidden">
+                        {% if same_person %}
+                            <h2> It's the same person! </h2>
+                        {% else %}
+                            <h2> They are not the same person! </h2>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+    <script>
+        $(document).ready(function () {
+            $(".result").fadeIn(5000)
+        })
+    </script>
+{% endblock %}
