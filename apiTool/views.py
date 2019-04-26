@@ -1,37 +1,38 @@
-import logging
-import os
-import base64
+from django.core.files.storage import FileSystemStorage
 from django.http import JsonResponse
-
-from django.conf import settings
-from django.core.files.base import ContentFile
-from django.core.files.storage import default_storage
-from django.shortcuts import render
+from django.views.decorators.csrf import csrf_exempt
 
 from DLPart.colorize import colorme
 from DLPart.face_recog import verify_if_same
 
 
+@csrf_exempt
 def colorizeAPI(request):  # colorization logic
-    logger = logging.getLogger(__name__)
-    img = request.FILES['image']
-    path = default_storage.save('tmp/deep.jpeg', ContentFile(img.read()))
-    logger.error(path)
-    tmp_file = os.path.join(settings.STATIC_ROOT, path)
-    colorme('canopus/media/'+path, path)
-    path = "http://127.0.0.1:8000/static/image/images/" + path
-    img = {'image': path}
-    # return render(request, 'image/colorize.html', img)
-    return JsonResponse(img)
+    # img = request.FILES['image']
+    myfile = request.FILES['image']
+    fs = FileSystemStorage()
+    filename = fs.save(myfile.name, myfile)
+    uploaded_file_url = fs.url(filename)
+    colorme('canopus' + uploaded_file_url, uploaded_file_url, api=True)
+    path = "http://127.0.0.1:8000/canopus" + uploaded_file_url
+    hello = {"image": path}
+    return JsonResponse(hello)
 
-
+@csrf_exempt
 def faceRecogApi(request):
-    logger = logging.getLogger(__name__)
-    img = request.FILES['image1']
-    path1 = default_storage.save('tmp/style1.jpeg', ContentFile(img.read()))
-    img = request.FILES['image2']
-    path2 = default_storage.save('tmp/style2.jpeg', ContentFile(img.read()))
-    same_person = verify_if_same('canopus/media/'+path1, 'canopus/media/'+path2)
-    dic1 = {'same_person': same_person}
-    # return render(request, 'image/facerecog.html', dic1)
-    return JsonResponse(dic1)
+    # img = request.FILES['image']
+    myfile1 = request.FILES['image1']
+    myfile2 = request.FILES['image2']
+    fs = FileSystemStorage()
+    filename1 = fs.save(myfile1.name, myfile1)
+    uploaded_file_url1 = fs.url(filename1)
+
+    filename2 = fs.save(myfile2.name, myfile2)
+    uploaded_file_url12 = fs.url(filename2)
+
+    same = verify_if_same('canopus' + uploaded_file_url1, 'canopus' + uploaded_file_url12)
+
+    hello = {"same_person": same}
+    return JsonResponse(hello)
+
+
