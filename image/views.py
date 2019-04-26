@@ -41,7 +41,7 @@ def calculateWeights(request):   # Classification Logic
     accuracy = train_weights_Image_classifier(cat1, cat2)
     deleteImages(cat1, cat2)
     dic1 = {'done': True, 'Accuracy': accuracy}
-    return render(request, 'image/imgclass.html', dic1)
+    return render(request, 'image/resultImgClass.html', dic1)
 
 
 """ ------------------------- COLORIZATION -------------------------"""
@@ -59,8 +59,8 @@ def imageUpload(request):  # colorization logic
     tmp_file = os.path.join(settings.STATIC_ROOT, path)
     colorme('canopus/media/'+path, path)
     #path = "http://127.0.0.1:8000/static/image/images/" + path
-    img = {'image': path}
-    return render(request, 'image/colorize.html', img)
+    img = {'image': path,}
+    return render(request, 'image/resultColorize.html', img)
 
 
 """--------------------------- STYLE TRANSFER -----------------------------"""
@@ -92,11 +92,8 @@ def faceRecogDone(request):
     path2 = default_storage.save('tmp/style2.jpeg', ContentFile(img.read()))
     same_person = verify_if_same('canopus/media/'+path1, 'canopus/media/'+path2)
     dic1 = {'same_person': same_person, 'done': True}
-    return render(request, 'image/facerecog.html', dic1)
+    return render(request, 'image/resultFaceRecog.html', dic1)
 
-
-"""def deepDreams(request):
-    return render(request, 'image/deepdreams.html') """
 
 
 def deleteImages(cat1, cat2):
