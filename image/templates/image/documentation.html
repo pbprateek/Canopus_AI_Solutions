@@ -39,7 +39,7 @@
                 <tr>
                     <td>/api/</td>
                     <td>This is the URL path which will be present in all the API calls.</td>
-                    <td>www.example.com/canopus/{endpoint here}</td>
+                    <td>www.example.com/api/{endpoint here}</td>
                 </tr>
                 </tbody>
             </table>
@@ -47,7 +47,7 @@
         <div class="row">
             <div class="doc-intro mt-5">
                 <p>
-                    Top level entry point allows 4 additional API categories:
+                    Top level entry point allows 4 additional API categories. All calls should be POST only.
                 </p>
             </div>
         </div>
@@ -62,27 +62,24 @@
                 </thead>
                 <tbody>
                 <tr>
-                    <td>/get-colored-image</td>
-                    <td>Functionality here</td>
+                    <td>/colorit</td>
+                    <td>Upload an image with key="image" and get a JSON response image path.</td>
                     <td>www.example.com/api/get-colored-image/</td>
                 </tr>
                 <tr>
-                    <td>/style-transfer</td>
-                    <td>Functionality here</td>
+                    <td>/recognizeface</td>
+                    <td>Upload images with keys="image1" and "image2" and get a JSON response of result.</td>
                     <td>www.example.com/api/style-transfer/</td>
-                </tr>
-                <tr>
-                    <td>/image-classification</td>
-                    <td>Functionality here</td>
-                    <td>www.example.com/api/image-classification/</td>
-                </tr>
-                <tr>
-                    <td>/recognize-face</td>
-                    <td>Functionality here</td>
-                    <td>www.example.com/api/recognize-face/</td>
                 </tr>
                 </tbody>
             </table>
+        </div>
+        <div class="row">
+            <div class="doc-intro mt-5">
+                <p>
+                    More API endpoints to be added.
+                </p>
+            </div>
         </div>
     </div>
 {% endblock %}
