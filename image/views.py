@@ -58,7 +58,6 @@ def imageUpload(request):  # colorization logic
     logger.error(path)
     tmp_file = os.path.join(settings.STATIC_ROOT, path)
     colorme('canopus/media/'+path, path)
-    #path = "http://127.0.0.1:8000/static/image/images/" + path
     img = {'image': path}
     return render(request, 'image/colorize.html', img)
 
