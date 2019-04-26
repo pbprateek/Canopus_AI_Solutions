@@ -153,6 +153,7 @@ a:hover {
     margin-top: 25%
 }
 .result-img {
+    height: 400px!important;
     border: 1px solid black;
     border-radius: 5px;
     box-shadow: 2px 2px 2px 1px rgba(0, 0, 0, 0.56);
@@ -277,7 +278,11 @@ td, th {
     padding-top: 200px;
 }
 .carousel img {
-    width: 200px;
+    height: 400px;
+}
+.carousel h6 {
+    margin: 0;
+    padding: 0;
 }
 .carousel p {
     margin-top: 30px;
@@ -297,4 +302,10 @@ td, th {
 }
 .carousel-indicators li:hover {
     cursor: pointer;
+}
+a {
+    color: #d64829;
+}
+a:hover {
+    color: white;
 }

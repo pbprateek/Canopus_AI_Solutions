@@ -3,7 +3,7 @@ import cv2 as cv
 import numpy as np
 
 
-def colorme(path_to_image, image_name):
+def colorme(path_to_image, image_name,api = False):
     W_in = 224
     H_in = 224
     imshowSize = (640, 480)
@@ -47,7 +47,11 @@ def colorme(path_to_image, image_name):
     img_bgr_out = np.clip(cur, 0, 1)
     img_bgr_out=img_bgr_out*255
 
-    cv.imwrite('image/static/image/images/'+image_name,img_bgr_out)
+    if api == False:
+        cv.imwrite('image/static/image/images/'+image_name,img_bgr_out)
+    else:
+        cv.imwrite('canopus' + image_name, img_bgr_out)
+
 
     #imshow needs int bet 0 to 1 but imwrite needs bet 0 to 255 , and default color mode for opencv is BGR
 

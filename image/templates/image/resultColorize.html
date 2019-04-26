@@ -1,0 +1,17 @@
+{% extends 'image/colorize.html' %}
+{% load staticfiles %}
+
+{% block resultColorize %}
+    <div class="row">
+        <div class="col-lg-5 offset-lg-3">
+            <div class="result text-center hidden">
+                <img class="result-img" src="{% static "image/images/" %}{{ image }}"/>
+            </div>
+        </div>
+    </div>
+    <script>
+        $(document).ready(function () {
+            $(".result").fadeIn(5000)
+        })
+    </script>
+{% endblock %}
