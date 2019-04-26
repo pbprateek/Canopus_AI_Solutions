@@ -57,7 +57,7 @@ def imageUpload(request):  # colorization logic
     path = default_storage.save('tmp/colored.jpeg', ContentFile(img.read()))
     colorme('canopus/media/'+path, path)
     img = {'image': path}
-    return render(request, 'image/colorize.html', img)
+    return render(request, 'image/resultColorize.html', img)
 
 
 

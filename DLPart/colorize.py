@@ -21,6 +21,7 @@ def colorme(path_to_image, image_name,api = False):
     net.getLayer(net.getLayerId('conv8_313_rh')).blobs = [np.full([1, 313], 2.606, np.float32)]
 
     image = cv.imread(path_to_image)
+    cv.imwrite('image/static/image/images/input.png' , image)
     img_rgb = (image[:, :, [2, 1, 0]] * 1.0 / 255).astype(np.float32)
 
     img = cv.cvtColor(img_rgb, cv.COLOR_RGB2Lab)

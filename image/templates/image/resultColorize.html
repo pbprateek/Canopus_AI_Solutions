@@ -3,7 +3,12 @@
 
 {% block resultColorize %}
     <div class="row">
-        <div class="col-lg-5 offset-lg-3">
+        <div class="col-lg-3 offset-lg-1">
+            <div class="result text-center hidden">
+                <img class="result-img" src="{% static "image/images/input.png" %}"/>
+            </div>
+        </div>
+        <div class="col-lg-3 offset-lg-2">
             <div class="result text-center hidden">
                 <img class="result-img" src="{% static "image/images/" %}{{ image }}"/>
             </div>
